@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css">
+    <title>catalogue des teeshirts nuls</title>
+  </head>
+  <body>
+    <main>
+      <div class="bouton">
+        <div class="btn" id="x">X</div>
+      
+      <div id="triparTaille" class="flex"></div>
+      <div id="triparCouleur" class="flex"></div>
+</div>
+      <div class="flex" id="produits"></div>
+    </main>
+    <script src="model.js"></script>
+    <script>
+      const divProduit = document.getElementById("produits");
+      let tshirtFiltres = tshirt;
+      //affichage
+      function affichage(tableauTshirts) {
+        divProduit.innerHTML = "";
+        // boucle sur tous les produits
+        for (const tshirt of tableauTshirts) {
+          // je cree un element qui va bien
+          //avec les bonnes donnees du tshirt au bon endroit
+          let html = `
+            
+                <div class="produit flex">
+                <h2 class="nom">${tshirt.nom}</h2>
+                <img src="${tshirt.image}" alt="tshirt" />
+                <div class="attribut taille">${tshirt.taille}</div>
+                <div class="attribut couleur">${tshirt.couleur}</div>
+                </div>
+            </div> 
+            `;
+
+          //l'ajouter à #produit
+          divProduit.innerHTML += html;
+        }
+      }
+
+      //filtre taille
+      function creerFiltreTaille(tailles) {
+        //boucle sur toutes les tailles
+        for (const taille of tailles) {
+          //creer un btn
+          let btn = document.createElement("div");
+          btn.classList.add("btn");
+          btn.setAttribute("taille", taille);
+          btn.innerText = taille;
+          //eventlistener qui appelle le bon filtre
+          btn.addEventListener("click", function (e) {
+            let tailleVoulue = e.target.getAttribute("taille");
+            //avec le bon resultat du filtre
+            //je refais l'affichage
+            tshirtFiltres = filtreTaille(tshirtFiltres, tailleVoulue);
+            affichage(tshirtFiltres);
+          });
+          document.getElementById("triparTaille").appendChild(btn);
+        }
+      }
+
+      //filtre couleur
+    function creerFiltreCouleur(couleurs) {
+        //boucle sur toutes les tailles
+        for (const couleur of couleurs) {
+          //creer un btn
+          let btn = document.createElement("div");
+          btn.classList.add("btn");
+          btn.setAttribute("couleur", couleur);
+          btn.innerText = couleur;
+          //eventlistener qui appelle le bon filtre
+          btn.addEventListener("click", function (e) {
+            let couleurVoulue = e.target.getAttribute("couleur");
+            //avec le bon resultat du filtre
+            //je refais l'affichage
+            tshirtFiltres = filtreCouleur(tshirtFiltres, couleurVoulue);
+            affichage(tshirtFiltres);
+          });
+          document.getElementById("triparCouleur").appendChild(btn);
+        }
+    }
+
+      document.getElementById("x").addEventListener("click", function (e) {
+        tshirtFiltres = tshirt;
+        affichage(tshirtFiltres);
+      });
+
+      affichage(tshirtFiltres);
+      creerFiltreCouleur(color);
+      creerFiltreTaille(size);
+    </script>
+  </body>
+</html>
